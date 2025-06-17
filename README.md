@@ -30,19 +30,19 @@ El núcleo del simulador se basa en tres conceptos principales:
 ├── estado.py
 ├── acciones.py
 ├── cartas.py
+├── requirements.txt
 └── img/
-    ├── fondo1.png
-    ├── ... (más fondos)
+    ├── ... (imágenes de fondo)
     └── Eventos/
-        ├── evento_carta_1.png
-        └── ... (40 imágenes de cartas)
+        └── ... (imágenes de cartas)
 ```
 
-* `main.py`: **(No modificar)**. Controla el bucle principal del juego, la interfaz gráfica con Pygame y la interacción con el usuario.
-* `estado.py`: Define el estado inicial de la empresa y contiene la función `calcular_estado_final()` que procesa los resultados de cada turno.
-* `acciones.py`: Implementa la lógica de todas las decisiones que puede tomar el jugador en las áreas de Producción, Recursos Humanos, Marketing, Compras y Finanzas.
-* `cartas.py`: Implementa la lógica de las 40 "Cartas del Caos" que introducen eventos aleatorios en el juego.
-* `img/`: Contiene todos los recursos gráficos, como los fondos de cada área y las imágenes para cada carta de evento.
+* `main.py`: **(No modificar)**. Controla el bucle principal del juego, la interfaz gráfica y la interacción con el usuario.
+* `estado.py`: Define el estado inicial y contiene la función `calcular_estado_final()`.
+* `acciones.py`: Implementa la lógica de las decisiones del jugador.
+* `cartas.py`: Implementa la lógica de las 40 "Cartas del Caos".
+* `requirements.txt`: Lista las dependencias del proyecto (Pygame).
+* `img/`: Contiene todos los recursos gráficos.
 
 ### Requisitos
 
@@ -52,24 +52,24 @@ El núcleo del simulador se basa en tres conceptos principales:
 ### Instalación
 
 1.  Asegúrate de tener Python 3 instalado en tu sistema.
-2.  Instala la librería Pygame usando pip:
+2.  Navega con tu terminal a la carpeta donde descargaste el proyecto.
+3.  Ejecuta el siguiente comando para instalar las dependencias necesarias. Esto leerá el archivo `requirements.txt` e instalará Pygame.
     ```bash
-    pip install pygame
+    pip install -r requirements.txt
     ```
 
 ### Cómo Jugar
 
-1.  Navega a la carpeta raíz del proyecto desde tu terminal.
-2.  Ejecuta el programa con el siguiente comando:
+1.  Una vez instaladas las dependencias, ejecuta el programa con el siguiente comando:
     ```bash
     python main.py
     ```
-3.  Usa los botones `<` y `>` para navegar entre las cinco áreas de la empresa.
-4.  Para cada área, haz clic en **`Cambiar`**, introduce el número de la acción deseada y presiona **`OK`**.
-5.  Una vez que hayas configurado las acciones para las cinco áreas, haz clic en **`Tomar carta`**.
-6.  Introduce un número del 1 al 40 para simular una carta del caos y presiona **`OK`**.
-7.  Haz clic en **`Continuar`** para finalizar el turno.
-8.  Para revisar los resultados y cómo cambió el estado de tu empresa, haz clic en **`Estado de la Empresa`**.
+2.  Usa los botones `<` y `>` para navegar entre las cinco áreas de la empresa.
+3.  Para cada área, haz clic en **`Cambiar`**, introduce el número de la acción deseada y presiona **`OK`**.
+4.  Una vez configuradas las acciones, haz clic en **`Tomar carta`**.
+5.  Introduce un número del 1 al 40 para simular una carta del caos y presiona **`OK`**.
+6.  Haz clic en **`Continuar`** para finalizar el turno.
+7.  Para revisar los resultados, haz clic en **`Estado de la Empresa`**.
 
 ### Nota del Profesor
 Según las indicaciones del profesor Ian B., la lógica de las **acciones** debe estar estandarizada y copiada desde el foro del curso para la exposición final. Se recomienda verificar también el foro para la lógica de las cartas y así asegurar la consistencia con los demás grupos.
@@ -81,7 +81,6 @@ Según las indicaciones del profesor Ian B., la lógica de las **acciones** debe
 * Cristopher Wilson Calero Ccana
 * Ítalo Pablo Roque Martínez
 * Giordano Gonzales Balladares Vilchez
-
 ---
 
 ## Chaos Factory
@@ -93,16 +92,13 @@ This project is a turn-based factory management simulator developed in Python us
 The simulator's core is built on three main concepts:
 
 1.  **Modular Management:** The game's logic is separated into Python modules, where each file has a unique responsibility:
-    * `acciones.py`: Contains the functions the player can execute (produce, hire, etc.).
-    * `cartas.py`: Contains the effects of random events ("Chaos Cards").
+    * `acciones.py`: Contains the functions the player can execute.
+    * `cartas.py`: Contains the effects of the "Chaos Cards".
     * `estado.py`: Manages the simulation state and end-of-turn calculations.
 
-2.  **Central `estado` Dictionary:** All factory information (cash, inventory, employees, reputation, etc.) is stored in a single Python dictionary named `estado`. All functions read from and write to this dictionary, making it the single source of truth for the game.
+2.  **Central `estado` Dictionary:** All factory information (cash, inventory, etc.) is stored in a single Python dictionary named `estado`, making it the single source of truth.
 
-3.  **Turn Flow:** Each turn represents one month of operations and follows a strict flow:
-    * The player chooses and executes a management action in each of the 5 areas.
-    * The effect of a chaos card is resolved, modifying the state.
-    * The final indicators for the month are recalculated (sales, payroll, counter updates, etc.).
+3.  **Turn Flow:** Each turn represents one month and follows a strict flow: Player Actions -> Chaos Card -> Final Calculation.
 
 ### Project Structure
 
@@ -112,19 +108,19 @@ The simulator's core is built on three main concepts:
 ├── estado.py
 ├── acciones.py
 ├── cartas.py
+├── requirements.txt
 └── img/
-    ├── fondo1.png
-    ├── ... (more backgrounds)
+    ├── ... (background images)
     └── Eventos/
-        ├── evento_carta_1.png
-        └── ... (40 card images)
+        └── ... (card images)
 ```
 
-* `main.py`: **(Do not modify)**. Controls the main game loop, the graphical user interface with Pygame, and user interaction.
-* `estado.py`: Defines the company's initial state and contains the `calcular_estado_final()` function, which processes the results of each turn.
-* `acciones.py`: Implements the logic for all player decisions in the areas of Production, Human Resources, Marketing, Purchasing, and Finance.
-* `cartas.py`: Implements the logic for the 40 "Chaos Cards" that introduce random events into the game.
-* `img/`: Contains all graphical assets, such as backgrounds for each area and images for each event card.
+* `main.py`: **(Do not modify)**. Controls the main game loop and GUI.
+* `estado.py`: Defines the initial state and the `calcular_estado_final()` function.
+* `acciones.py`: Implements the player's decision logic.
+* `cartas.py`: Implements the logic for the 40 "Chaos Cards".
+* `requirements.txt`: Lists the project dependencies (Pygame).
+* `img/`: Contains all graphical assets.
 
 ### Requirements
 
@@ -134,24 +130,24 @@ The simulator's core is built on three main concepts:
 ### Installation
 
 1.  Ensure you have Python 3 installed on your system.
-2.  Install the Pygame library using pip:
+2.  Navigate to the project folder using your terminal.
+3.  Run the following command to install the necessary dependencies. This will read the `requirements.txt` file and install Pygame.
     ```bash
-    pip install pygame
+    pip install -r requirements.txt
     ```
 
 ### How to Play
 
-1.  Navigate to the project's root folder from your terminal.
-2.  Run the program with the following command:
+1.  Once the dependencies are installed, run the program with the following command:
     ```bash
     python main.py
     ```
-3.  Use the `<` and `>` buttons to navigate between the five company areas.
-4.  For each area, click the **`Cambiar`** button, enter the number of the desired action, and press **`OK`**.
-5.  Once you have set the actions for all five areas, click the **`Tomar carta`** button.
-6.  Enter a number from 1 to 40 to simulate a chaos card and press **`OK`**.
-7.  Click **`Continuar`** to end the turn.
-8.  To review the results and see how your company's state has changed, click the **`Estado de la Empresa`** button.
+2.  Use the `<` and `>` buttons to navigate between the five company areas.
+3.  For each area, click **`Cambiar`**, enter the number of the desired action, and press **`OK`**.
+4.  Once all actions are set, click **`Tomar carta`**.
+5.  Enter a number from 1 to 40 to simulate a chaos card and press **`OK`**.
+6.  Click **`Continuar`** to end the turn.
+7.  To review the results, click **`Estado de la Empresa`**.
 
 ### Professor's Note
 As per the instructions from Professor Ian B., the logic for the **actions** must be standardized and copied from the course forum for the final presentation. It is recommended to also check the forum for the card logic to ensure consistency with other groups.
