@@ -2,7 +2,7 @@
 
 ---
 
-## Simulador de Fábrica
+## Fábrica del Caos
 
 Este proyecto es un simulador de gestión de una fábrica por turnos, desarrollado en Python con la librería Pygame para la interfaz gráfica. Los jugadores asumen el rol de gerentes y deben tomar decisiones mensuales en cinco áreas funcionales clave para asegurar la rentabilidad y sostenibilidad de la empresa.
 
@@ -84,7 +84,7 @@ Según las indicaciones del profesor Ian B., la lógica de las **acciones** debe
 
 ---
 
-## Factory Simulator
+## Chaos Factory
 
 This project is a turn-based factory management simulator developed in Python using the Pygame library for the graphical interface. Players take on the role of managers and must make monthly decisions across five key functional areas to ensure the company's profitability and sustainability.
 
