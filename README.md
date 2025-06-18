@@ -1,8 +1,9 @@
 [**Español**](#simulador-de-fábrica-español) | [**English**](#factory-simulator-english)
+[**Español**](#simulador-de-fábrica-español) | [**English**](#factory-simulator-english)
 
 ---
 
-## Fábrica del Caos
+## Fabrica del Caos
 
 Este proyecto es un simulador de gestión de una fábrica por turnos, desarrollado en Python con la librería Pygame para la interfaz gráfica. Los jugadores asumen el rol de gerentes y deben tomar decisiones mensuales en cinco áreas funcionales clave para asegurar la rentabilidad y sostenibilidad de la empresa.
 
@@ -76,11 +77,18 @@ Según las indicaciones del profesor Ian B., la lógica de las **acciones** debe
 
 ### Autor(es)
 
-* Luis Jaime Docarmo Rodriguez
-* Martin Emilio Espinoza Reto
-* Cristopher Wilson Calero Ccana
-* Ítalo Pablo Roque Martínez
-* Giordano Gonzales Balladares Vilchez
+* **Docarmo Rodríguez, Luis Jaime** (Código: 202510006)
+* **Balladares Vílchez, Giordano Gonzalo** (Código: 202510077)
+* **Espinoza Reto, Martin Emilio** (Código: 202510153)
+* **Calero Ccana, Cristopher Wilson** (Código: 202510117)
+
+### Detalle de Contribuciones
+* **Luis Jaime Docarmo Rodríguez:** Encargado de la acción "Pagar deuda" (`acciones.finanzas_pagar_deuda`).
+* **Giordano Gonzales Balladares Vílchez:** Encargado de la acción "Negociar crédito" (`acciones.compras_negociar_credito`).
+* **Martin Emilio Espinoza Reto:** Encargado de la acción "Invertir en branding" (`acciones.marketing_invertir_branding`).
+* **Cristopher Wilson Calero Ccana:** Encargado de la acción "Vender excedentes de insumos" (`acciones.compras_vender_excedentes_insumos`).
+* **Ítalo Pablo Roque Martínez:** No respondió a las comunicaciones para la coordinación del proyecto.
+
 ---
 
 ## Chaos Factory
@@ -131,7 +139,7 @@ The simulator's core is built on three main concepts:
 
 1.  Ensure you have Python 3 installed on your system.
 2.  Navigate to the project folder using your terminal.
-3.  Run the following command to install the necessary dependencies. This will read the `requirements.txt` file and install Pygame.
+3.  Run the following command to install the required dependencies. This will read the `requirements.txt` file and install Pygame.
     ```bash
     pip install -r requirements.txt
     ```
@@ -154,8 +162,14 @@ As per the instructions from Professor Ian B., the logic for the **actions** mus
 
 ### Author(s)
 
-* Luis Jaime Docarmo Rodriguez
-* Martin Emilio Espinoza Reto
-* Cristopher Wilson Calero Ccana
-* Ítalo Pablo Roque Martínez
-* Giordano Gonzales Balladares Vilchez
+* **Docarmo Rodríguez, Luis Jaime** (Code: 202510006)
+* **Balladares Vílchez, Giordano Gonzalo** (Code: 202510077)
+* **Espinoza Reto, Martin Emilio** (Code: 202510153)
+* **Calero Ccana, Cristopher Wilson** (Code: 202510117)
+
+### Contribution Details
+* **Luis Jaime Docarmo Rodríguez:** In charge of the "Pagar deuda" (Pay debt) action (`acciones.finanzas_pagar_deuda`).
+* **Giordano Gonzales Balladares Vílchez:** In charge of the "Negociar crédito" (Negotiate credit) action (`acciones.compras_negociar_credito`).
+* **Martin Emilio Espinoza Reto:** In charge of the "Invertir en branding" (Invest in branding) action (`acciones.marketing_invertir_branding`).
+* **Cristopher Wilson Calero Ccana:** In charge of the "Vender excedentes de insumos" (Sell surplus supplies) action (`acciones.compras_vender_excedentes_insumos`).
+* **Ítalo Pablo Roque Martínez:** Did not respond to communications for project coordination.
