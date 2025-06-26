@@ -1,0 +1,177 @@
+Función: calcular_estado_inicial()
+Objetivo: Construir y devolver un diccionario de Python que representa el estado virgen de la fábrica al comenzar una nueva partida.
+
+Ubicación: Líneas 3 a 32.
+
+Explicación Línea por Línea:
+--- Línea 3: def calcular_estado_inicial(): ---
+
+Qué hace: Define el inicio de una función.
+Sintaxis y Comandos:
+def: Es la palabra clave de Python para declarar una nueva función.
+calcular_estado_inicial: Es el nombre que le damos a la función. Es descriptivo de su propósito.
+(): Los paréntesis vacíos indican que esta función no requiere ningún argumento o parámetro de entrada para ejecutarse.
+:: El dos puntos marca el final de la declaración de la función y el comienzo de su bloque de código indentado.
+Propósito Estratégico: Encapsular la lógica de creación en un solo lugar. Esto permite que el juego se pueda reiniciar de forma limpia y predecible simplemente volviendo a llamar a esta función.
+--- Línea 4 y 5: empleados = 4 y costo_emp = 2000 ---
+
+Qué hacen: Declaran y asignan valores a dos variables locales.
+Sintaxis y Comandos:
+= Es el operador de asignación. Asigna el valor de la derecha a la variable de la izquierda.
+empleados y costo_emp: Son los nombres de las variables.
+4 y 2000: Son literales de tipo entero (int).
+Propósito Estratégico: Mejorar la legibilidad y mantenibilidad del código. Al usarse en la línea "Sueldos por pagar": empleados * costo_emp, si se necesita cambiar el costo o el número de empleados inicial, solo se modifica en un lugar. Estas variables solo existen dentro de esta función.
+--- Línea 7: return { ---
+
+Qué hace: Indica a la función que debe devolver un valor y comienza la definición de un diccionario.
+Sintaxis y Comandos:
+return: Es la palabra clave que finaliza la ejecución de una función y devuelve un valor al punto donde fue llamada.
+{: Es el carácter que inicia la creación de un literal de diccionario.
+Propósito Estratégico: Devolver la estructura de datos completa que representa el estado inicial del juego.
+--- Líneas 8 a 31: (Ejemplo: "Caja disponible": 50000,) ---
+
+Qué hace: Define un par llave: valor dentro del diccionario.
+Sintaxis y Comandos:
+"Caja disponible": La llave. Es un tipo de dato string (texto entre comillas) que funciona como una etiqueta única.
+:: El carácter separador entre la llave y el valor.
+50000: El valor. En este caso, un número entero (int). Puede ser de otros tipos como float (decimal, ej. 4.5), bool (booleano, True o False), str (texto, ej. "Nivel 3") o list (lista, []).
+,: La coma separa este par llave-valor del siguiente.
+Propósito Estratégico: Asignar un valor inicial a cada uno de los indicadores de la fábrica. El uso de llaves de texto descriptivas es la razón principal para usar un diccionario, ya que hace que el acceso a los datos en el resto del código (ej. estado["Caja disponible"]) sea explícito y fácil de entender.
+--- Línea 32: } ---
+
+Qué hace: Cierra la definición del diccionario.
+Sintaxis y Comandos: Es el carácter de cierre para la llave { que se abrió en la línea 7.
+Propósito Estratégico: Marcar el final de la estructura de datos que se va a devolver.
+Función: calcular_estado_final(estado)
+Objetivo: Es el motor contable y operativo que se ejecuta al final de cada turno. Procesa todas las consecuencias acumuladas de las acciones y cartas, y prepara el estado para el siguiente turno.
+
+Ubicación: Líneas 34 a 122.
+
+Explicación Línea por Línea:
+--- Línea 34: def calcular_estado_final(estado): ---
+
+Qué hace: Define la función calcular_estado_final. A diferencia de la anterior, esta sí recibe un argumento, el diccionario estado actual del juego.
+Por qué: Porque su trabajo no es crear un estado nuevo, sino modificar uno que ya existe.
+--- Línea 35: estado["ProduccionRealizada"] = False ---
+
+Qué hace: Accede a la llave "ProduccionRealizada" del diccionario estado y le asigna el valor booleano False.
+Por qué: Para "resetear" esta bandera al inicio de cada ciclo de cálculo. Se asume que no se produjo, y solo la acción produccion_producir puede cambiar esto a True.
+--- Línea 36: precio_venta = estado["Precio de venta"] ---
+
+Qué hace: Lee el valor de "Precio de venta" del diccionario y lo copia en una variable local precio_venta.
+Por qué: Para tener un acceso más corto y rápido a este valor, que se usará varias veces en los cálculos siguientes, mejorando ligeramente la legibilidad.
+--- Líneas 39-42 (Bloque if/else de venta): ---
+
+Línea 39: if ... or ... or ...:: Condición que revisa si alguna de las tres banderas de bloqueo de ventas está activa. El operador or devuelve True si al menos una de las condiciones es verdadera.
+Línea 40: unidades_a_vender = 0: Si alguna prohibición está activa, fuerza las ventas a cero.
+Línea 41: else:: Si ninguna prohibición está activa, ejecuta el siguiente bloque.
+Línea 42: unidades_a_vender = min(...): Usa la función min() para encontrar el cuello de botella entre la demanda ("Pedidos por atender") y la oferta ("Inventario"), asignando el menor de los dos a unidades_a_vender.
+Por qué: Para determinar la cantidad máxima posible de unidades a vender en este turno, considerando las restricciones.
+--- Líneas 44-49 (Cálculo de reducción de ventas): ---
+
+Línea 44: reduccion_venta_total = 1.0: Inicializa un multiplicador. Usar 1.0 (un float) asegura que los cálculos posteriores mantengan la precisión decimal.
+Línea 45: if ...: reduccion_venta_total *= 0.5: Cada if revisa si un efecto negativo de una carta está activo. Si lo está, el operador *= multiplica el valor actual de reduccion_venta_total por el factor de reducción.
+Por qué: Para aplicar de forma acumulativa todas las penalizaciones a las ventas que puedan estar activas en un mismo turno.
+--- Línea 51: unidades_a_vender = math.floor(...) ---
+
+Qué hace: Aplica el multiplicador de reducción a las unidades y luego math.floor() redondea el resultado hacia abajo al entero más cercano.
+Por qué: Para obtener la cantidad final y definitiva de unidades vendidas, asegurando que sea un número entero.
+--- Líneas 54-58 (Actualización post-venta): ---
+
+estado[...] += ... y estado[...] -= ...: Los operadores += (sumar y asignar) y -= (restar y asignar) modifican los valores de caja, inventario y unidades vendidas directamente en el diccionario.
+Por qué: Para registrar los resultados de la venta en el estado del juego.
+--- Líneas 60-63 (Penalización de Reputación): ---
+
+Línea 60: if unidades_a_vender < estado["Pedidos por atender"]:: Compara las unidades que se vendieron con las que se pidieron. Si vendiste menos de lo que te pidieron...
+Línea 61: nivel_actual = int(estado["...].split(" ")[1]): ...esta línea procesa el texto de la reputación. .split(" ") convierte "Nivel 3" en ['Nivel', '3']. [1] toma el segundo elemento, '3'. int() convierte el texto '3' en el número 3.
+Línea 62: if nivel_actual > 1:: Revisa que la reputación no esté ya en el mínimo.
+Línea 63: estado[...] = f"Nivel {nivel_actual - 1}": Crea un nuevo string usando una f-string, que permite incrustar variables ({...}) dentro del texto, para formar el nuevo nivel (ej. "Nivel 2").
+Por qué: Para aplicar una penalización a la reputación si no se satisface la demanda, lo que afectará las ventas futuras.
+
+--- Línea 65: estado["Pedidos por atender"] = 0 ---
+Qué hace: Asigna el valor entero 0 a la llave "Pedidos por atender" del diccionario estado.
+Sintaxis y Comandos: Es una operación de asignación directa usando el operador =.
+Propósito Estratégico: "Limpiar" el contador de pedidos del mes que acaba de terminar. La demanda de este mes ya fue procesada (sea que se haya satisfecho con una venta o no). Esta línea resetea el contador para que en el siguiente bloque podamos calcular la demanda para el próximo mes desde cero.
+Bloque 2: Actualización de Pedidos para el Siguiente Mes
+Objetivo: Calcular cuántos productos querrán comprar los clientes en el siguiente turno.
+
+--- Línea 68: nivel_reputacion = int(estado["Reputacion del mercado"].split(" ")[1]) ---
+
+Qué hace: Extrae el número del nivel de reputación del texto.
+Sintaxis y Comandos:
+estado["Reputacion del mercado"]: Accede al valor, que es un texto como "Nivel 3".
+.split(" "): Es un método de los strings que divide el texto en una lista usando el espacio como separador. Resultado: ['Nivel', '3'].
+[1]: Accede al segundo elemento de esa lista (el que está en la posición 1), que es el texto '3'.
+int(): Es una función que convierte un texto en un número entero. '3' se convierte en 3.
+Propósito Estratégico: Convertir un dato descriptivo (texto) en un número con el que se pueden hacer cálculos matemáticos para determinar la demanda.
+--- Línea 69: demanda_base = 1000 * nivel_reputacion ---
+
+Qué hace: Calcula la demanda base multiplicando el número del nivel de reputación por 1000.
+Sintaxis y Comandos: * es el operador de multiplicación.
+Propósito Estratégico: Crear una relación directa y escalable entre la reputación y las ventas potenciales. Motiva al jugador a invertir en acciones que mejoren su reputación.
+--- Líneas 72-79 (Aplicación de Bonificaciones): ---
+
+if estado["TurnosBranding"] > 0: demanda_base *= 1.10:
+Qué hace: Revisa si el contador de turnos para el efecto "Branding" es mayor a cero. Si lo es, multiplica (*=) la demanda_base por 1.10, lo que equivale a un aumento del 10%.
+Sintaxis y Comandos: if para la condición, > para la comparación, *= para la multiplicación y asignación.
+Por qué: Para aplicar los efectos positivos de las acciones de marketing que el jugador haya realizado. Cada if revisa un bono diferente y lo aplica si corresponde.
+--- Líneas 82-83 (Aplicación de Reducciones): ---
+
+Qué hace: De forma similar a los bonos, revisa si hay efectos negativos de cartas del caos activos y, si los hay, reduce la demanda.
+Por qué: Para que las cartas del caos tengan un impacto tangible y negativo en las futuras ventas.
+--- Línea 85: estado["Pedidos por atender"] = math.floor(demanda_base) ---
+
+Qué hace: Asigna el valor final de la demanda calculada a la llave "Pedidos por atender". La función math.floor() redondea el número hacia abajo.
+Por qué: Para actualizar el estado del juego con la nueva demanda para el próximo turno y para asegurarse de que sea un número entero.
+Bloque 3: Pago de Gastos Obligatorios
+Objetivo: Simular los gastos fijos que la empresa debe cubrir, como sueldos y deudas vencidas.
+
+--- Línea 88: gastos_totales = estado["Sueldos por pagar"] + estado["Multas e indemnizaciones"] ---
+
+Qué hace: Suma (+) los sueldos del mes y cualquier multa acumulada para obtener el total de gastos a pagar.
+Por qué: Para consolidar todos los gastos inmediatos en una sola variable y facilitar el cálculo.
+--- Líneas 89-95 (Lógica de Pago de Nómina): ---
+
+Línea 89: if estado["Caja disponible"] >= gastos_totales:: Compara si el dinero en caja es mayor o igual (>=) a los gastos totales.
+Línea 90: estado["Caja disponible"] -= gastos_totales: Si hay dinero suficiente, lo resta (-=) de la caja.
+Línea 91: else:: Si la condición del if es falsa (no hay suficiente dinero)...
+Línea 92: faltante = gastos_totales - estado["Caja disponible"]: Calcula exactamente cuánto dinero falta para cubrir los gastos.
+Línea 93: estado["Caja disponible"] = 0: Pone la caja en cero, ya que se usó todo el dinero disponible.
+Línea 94: estado["Deuda pendiente"] += faltante * 1.12: Suma (+=) el faltante a la deuda, pero antes lo multiplica (*) por 1.12.
+Por qué: Para modelar una penalización del 12% por no poder cumplir con las obligaciones. Esto hace que la gestión de la caja sea crítica para el jugador.
+--- Línea 98-106 (Lógica de Pago a Proveedores): ---
+
+Línea 98: for i, (monto, turnos) in enumerate(estado["CuentasPorPagar"]):: Inicia un bucle for que recorre la lista de deudas con proveedores. enumerate es una función muy útil que devuelve tanto el índice de la posición (i) como el valor en esa posición (la tupla (monto, turnos)).
+Línea 99: if turnos <= 1:: Dentro del bucle, revisa si a esa deuda le queda 1 turno o menos para ser pagada.
+Líneas 100-105: Es la misma lógica que el pago de nómina. Si hay caja, se paga el monto. Si no, la deuda se convierte en deuda bancaria con 12% de interés.
+Por qué: Para simular que las deudas con proveedores tienen una fecha de vencimiento y que no pagarlas a tiempo tiene consecuencias financieras.
+Bloque 6: Actualización de Contadores Temporales (El Reloj del Juego)
+Objetivo: Hacer que el tiempo pase para todos los efectos que duran varios turnos.
+
+--- Línea 111: for key in list(estado.keys()): ---
+
+Qué hace: Inicia un bucle for que va a recorrer cada una de las llaves del diccionario estado.
+Sintaxis y Comandos: estado.keys() devuelve una vista de todas las llaves del diccionario. list() convierte esa vista en una lista estática.
+Por qué: Crear una lista estática (list()) es una práctica segura para recorrer un diccionario, especialmente si se planea modificarlo dentro del bucle (aunque en este caso específico no se modifica, es un buen hábito).
+--- Línea 112: if key.startswith("Turnos") and estado[key] > 0: ---
+
+Qué hace: Es un filtro doble. key.startswith("Turnos") es un método de los strings que revisa si el texto de la llave key empieza con la palabra "Turnos". La segunda parte, and estado[key] > 0, asegura que solo se modifiquen los contadores que todavía están activos.
+Por qué: Es un mecanismo genérico y muy poderoso. Permite manejar todos los efectos temporales (presentes y futuros) con un solo bloque de código, sin necesidad de escribir un if para cada contador individual. Esto hace el código mucho más limpio y fácil de mantener.
+--- Línea 113: estado[key] -= 1 ---
+
+Qué hace: Si una llave pasó el filtro anterior, esta línea le resta 1 a su valor.
+Por qué: Es la "cuenta regresiva". Cada turno, los efectos temporales pierden un turno de duración hasta que llegan a cero y se desactivan.
+Bloque 8: Pérdida de Insumos por Inactividad
+Objetivo: Penalizar al jugador por no usar sus insumos, simulando que estos caducan.
+
+--- Línea 120: elif not estado["ProduccionRealizada"]: ---
+
+Qué hace: elif significa "si la condición anterior (if) fue falsa, entonces revisa esta nueva condición". not es un operador que invierte un valor booleano. not estado["ProduccionRealizada"] es verdadero solo si "ProduccionRealizada" es False.
+Por qué: Para aplicar la penalización únicamente en los turnos en los que no se produjo absolutamente nada.
+--- Línea 121: estado["Insumos disponibles"] = math.floor(...) ---
+
+Qué hace: Multiplica los insumos por 0.90 (una reducción del 10%) y math.floor redondea hacia abajo.
+Por qué: Para aplicar la penalización por caducidad y mantener los insumos como un número entero.
+--- Línea 122: return estado ---
+Qué hace: Devuelve el diccionario estado final, con todas las modificaciones del turno.
+Por qué: Para entregarle el estado actualizado al main.py, que lo usará para dibujar la pantalla del siguiente turno. Es el final del ciclo de un mes.

@@ -1,0 +1,103 @@
+Función: produccion_producir(estado)
+Ubicación: Líneas 5 a 30.
+Objetivo: Utilizar insumos para fabricar productos y añadirlos al inventario.
+Explicación Línea por Línea:
+Línea 6: if estado.get("Prohibir Produccion", False) or ...:
+
+Qué hace: Verifica si existe alguna condición que impida la producción. El operador or hace que la condición sea verdadera si CUALQUIERA de las prohibiciones está activa.
+Sintaxis y Comandos: .get("llave", False) es una forma segura de leer un valor de un diccionario. Si la llave "Prohibir Produccion" no existe, usa False como valor por defecto, evitando un error.
+Propósito Estratégico: Para que las cartas del caos que prohíben la producción tengan un efecto real en el juego, bloqueando esta acción.
+Línea 10: total, activas, danadas = map(int, estado["...].split('/'))
+
+Qué hace: Procesa el texto de las máquinas (ej. "5/4/1") para convertirlo en números utilizables.
+Sintaxis y Comandos: .split('/') divide el texto en una lista ['5', '4', '1']. map(int, ...) aplica la función int() a cada elemento de esa lista, convirtiéndolos en números. Finalmente, esos tres números se asignan a las variables total, activas y danadas.
+Propósito Estratégico: Para poder usar la cantidad de máquinas activas en cálculos matemáticos.
+Línea 11 y 12: produccion_total_turno = 0 y insumos_por_maquina = 40000
+
+Qué hacen: Inicializan variables locales que se usarán en el bucle.
+Por qué: Para empezar los contadores del turno en cero y tener una variable clara para el costo de producción por máquina.
+Línea 14: for _ in range(activas):
+
+Qué hace: Inicia un bucle for que se repetirá tantas veces como máquinas activas haya.
+Sintaxis y Comandos: range(activas) crea una secuencia de números desde 0 hasta activas-1. El guion bajo _ se usa como nombre de variable cuando no nos interesa usar el número del contador en cada iteración, solo nos importa repetir el bloque de código.
+Por qué: Para simular que cada máquina intenta producir de forma individual.
+Línea 15: if estado["Insumos disponibles"] >= insumos_por_maquina:
+
+Qué hace: Dentro del bucle, revisa si hay suficientes insumos para que una máquina produzca.
+Por qué: Para simular que la producción depende de tener materia prima disponible.
+Línea 16-18:
+
+estado["Insumos disponibles"] -= ...: Resta los insumos consumidos.
+produccion_total_turno += ...: Suma las unidades producidas al total del turno.
+estado["TurnosProduccionExtra"] = 2: Activa el contador del bono de producción extra.
+Por qué: Simulan el núcleo del proceso productivo: se gasta un recurso para crear otro y se obtiene un beneficio (producción extra futura).
+Línea 20-26 (Bonificaciones):
+
+Qué hacen: Aplican diferentes bonificaciones (por empleados, mejoras de proceso, incentivos) o penalizaciones (plagas) a la producción total del turno.
+Sintaxis y Comandos: Usan operadores de asignación compuesta como += (sumar y asignar) y *= (multiplicar y asignar).
+Por qué: Para que las decisiones en otras áreas (como RRHH) y los eventos del caos afecten la eficiencia de la producción, haciendo el juego más interconectado y complejo.
+Línea 28: estado["Inventario"] += math.floor(produccion_total_turno)
+
+Qué hace: Suma la producción total del turno al inventario. math.floor() redondea hacia abajo para garantizar un número entero de productos.
+Por qué: Para registrar el resultado final de la producción en el estado del juego.
+Función: produccion_mantenimiento_maquinaria(estado)
+Ubicación: Líneas 46 a 59.
+Objetivo: Reparar todas las máquinas dañadas y activar un escudo protector de 3 turnos.
+Explicación Línea por Línea:
+Línea 47: costo = 5000: Declara el costo de la acción.
+Línea 48-51: if/else: Revisa si hay dinero en caja. Si lo hay, lo resta. Si no, convierte el costo en deuda con 12% de interés (*= 1.12). Esto asegura que una acción crítica como el mantenimiento siempre se pueda realizar.
+Línea 53-56: Procesa el string de las máquinas, suma las dañadas a las activas (activas += danadas), pone las dañadas en cero (danadas = 0), y vuelve a crear el string con los nuevos valores.
+Línea 58: estado["TurnosProteccionMantenimiento"] = 3: Activa el "escudo" protector. Esta es una de las mecánicas más importantes, ya que le da al jugador una forma de mitigar el riesgo de las cartas del caos.
+(Las demás funciones de Producción y Recursos Humanos siguen patrones similares, modificando el estado con costos, sumas o activando banderas).
+
+Área de Marketing
+Objetivo del Área: Aumentar la reputación de la empresa para generar más demanda.
+
+Función: marketing_abrir_ecommerce(estado)
+Ubicación: Líneas 145 a 157.
+Objetivo: Crear un canal de venta online, con un costo inicial alto y un costo de mantenimiento menor en turnos posteriores.
+Explicación Línea por Línea:
+Línea 146: if not estado["EcommerceActivo"]::
+Qué hace: Revisa si la bandera "EcommerceActivo" es False. El not invierte el valor booleano.
+Por qué: Para ejecutar una lógica diferente la primera vez que se usa la acción (cuando se abre el canal) versus las veces posteriores (cuando solo se hace mantenimiento).
+Línea 147-150 (Bloque del if):
+Qué hacen: Corresponden a la apertura del canal. Revisa si se tienen los S/ 20,000 del costo, los resta, y cambia la bandera a True.
+Por qué: Para simular la inversión inicial y activar permanentemente el canal de e-commerce.
+Línea 151-155 (Bloque del else):
+Qué hacen: Corresponden al mantenimiento. Si el canal ya estaba activo (EcommerceActivo es True), solo cobra S/ 2,000 y activa un escudo protector para el e-commerce.
+Por qué: Para simular costos operativos recurrentes y dar un beneficio estratégico por mantener el canal.
+Área de Compras
+Objetivo del Área: Adquirir los insumos necesarios para la producción.
+
+Función: compras_negociar_credito(estado)
+Ubicación: Líneas 218 a 223.
+Objetivo: Pagar una tarifa para poder realizar compras a crédito en el futuro.
+Explicación Línea por Línea:
+Línea 219: costo = 2000: Define el costo de la negociación.
+Línea 220: if estado["Caja disponible"] >= costo:: Revisa si hay dinero para pagar.
+Línea 221: estado["Caja disponible"] -= costo: Resta el costo de la caja.
+Línea 222: estado["CreditoConcedido"] = True:
+Qué hace: Esta es la línea más importante. Cambia el valor de la bandera "CreditoConcedido" a True.
+Por qué: Activa un "interruptor" en el estado del juego. Las funciones de compra de insumos revisarán este interruptor. Si está en True, permitirán la compra sin gastar dinero de la caja y en su lugar añadirán la deuda a la lista "CuentasPorPagar".
+Área de Finanzas
+Objetivo del Área: Gestionar el dinero, las deudas y los riesgos financieros.
+
+Función: finanzas_pagar_proveedores(estado)
+Ubicación: Líneas 228 a 234.
+Objetivo: Pagar por adelantado todas las deudas con proveedores para obtener un descuento del 5%.
+Explicación Línea por Línea:
+Línea 229: total_a_pagar = sum(...):
+Qué hace: Usa una "expresión generadora" para calcular la suma de todas las deudas en la lista "CuentasPorPagar".
+Sintaxis y Comandos: (monto for monto, turnos in ...) es una forma compacta de crear un bucle que recorre la lista, extrae solo el monto de cada tupla (monto, turnos), y la función sum() los suma todos.
+Por qué: Para calcular eficientemente la deuda total con proveedores.
+Línea 230: costo_con_descuento = total_a_pagar * 0.95:
+Qué hace: Aplica un 5% de descuento al total.
+Por qué: Para aplicar el beneficio de "pronto pago" que define esta acción.
+Línea 231: if estado["Caja disponible"] >= costo_con_descuento::
+Qué hace: Valida si hay suficiente dinero para el pago.
+Por qué: Para asegurar que la acción solo se ejecute si la empresa puede permitírselo.
+Línea 232: estado["Caja disponible"] -= ...: Resta el costo de la caja.
+Línea 233: estado["CuentasPorPagar"] = []:
+Qué hace: Reemplaza la lista de deudas actual por una lista nueva y vacía ([]).
+Por qué: Es la forma más rápida y limpia de eliminar todas las deudas con proveedores de una sola vez después de haberlas pagado.
+(Las demás funciones de Finanzas siguen patrones ya explicados, como la de pagar_deuda que usa min() para un pago seguro, o la de crear_fondo_emergencia que activa una bandera booleana).
